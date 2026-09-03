@@ -46,6 +46,14 @@ function cachePresets(p: Preset[]) {
   }
 }
 
+function sanitizePreset(p: Preset): Preset {
+  if (p.transport === "stdio") {
+    return { ...p, url: "", headers: "{}" };
+  }
+  // sse / streamable – http transports don't need stdio fields
+  return { ...p, command: "", args: "", env: "", cwd: "" };
+}
+
 interface Props {
   status: ConnectionStatus | null;
   onStatus: (s: ConnectionStatus | null) => void;
@@ -74,7 +82,7 @@ export default function ConnectionPanel({ status, onStatus, onError }: Props) {
       .configExists()
       .then((exists) => {
         if (!exists) {
-          const cached = loadCachedPresets();
+          const cached = loadCachedPresets().map(sanitizePreset);
           if (cached.length > 0) {
             mcpApi.savePresets(cached).catch(() => {});
           }
@@ -84,8 +92,17 @@ export default function ConnectionPanel({ status, onStatus, onError }: Props) {
           .getConfig()
           .then((cfg) => {
             const list = Array.isArray(cfg.presets) ? cfg.presets : [];
-            setPresets(list);
-            cachePresets(list);
+            // migrate old presets that still contain redundant fields
+            const cleaned = list.map(sanitizePreset);
+            const needsMigrate = JSON.stringify(cleaned) !== JSON.stringify(list);
+            if (needsMigrate) {
+              mcpApi.savePresets(cleaned).catch(() => {});
+              cachePresets(cleaned);
+              setPresets(cleaned);
+            } else {
+              setPresets(list);
+              cachePresets(list);
+            }
           })
           .catch(() => {
             /* keep cache */
@@ -153,7 +170,9 @@ export default function ConnectionPanel({ status, onStatus, onError }: Props) {
 
   function savePreset() {
     const name = presetName.trim() || `${transport}-${new Date().toLocaleTimeString()}`;
-    persistPresets([...presets.filter((x) => x.name !== name), { name, transport, command, args, env, cwd, url, headers }]);
+    const raw: Preset = { name, transport, command, args, env, cwd, url, headers } as Preset;
+    const cleaned = sanitizePreset(raw);
+    persistPresets([...presets.filter((x) => x.name !== name), cleaned]);
     setPresetName("");
   }
 
