@@ -1,0 +1,178 @@
+export type Locale = "zh" | "en";
+
+const zh = {
+  "app.subtitle": "MCP Inspector",
+  "toolbar.ping": "Ping",
+  "toolbar.toggleTheme": "切换浅色 / 深色主题",
+  "toolbar.toggleLang": "切换语言 / Switch language",
+  "tab.tools": "Tools",
+  "tab.resources": "Resources",
+  "tab.prompts": "Prompts",
+  "tab.history": "历史 / 日志 ({n})",
+  "tab.notifications": "通知 ({n})",
+  "notify.empty": "暂无 server 通知（logging / progress / resource 更新会显示在这里）",
+
+  "conn.title": "连接配置",
+  "conn.connected": "已连接 · {t}",
+  "conn.disconnected": "未连接",
+  "conn.transport": "传输协议",
+  "conn.transport.stdio": "STDIO（本地子进程）",
+  "conn.transport.sse": "SSE（远程）",
+  "conn.transport.streamable": "Streamable HTTP（远程，推荐）",
+  "conn.command": "Command",
+  "conn.args": "Args（空格分隔）",
+  "conn.env": "Env（每行 KEY=VALUE）",
+  "conn.cwd": "Cwd（可选）",
+  "conn.url": "Server URL",
+  "conn.headers": "Headers（JSON）",
+  "conn.connecting": "连接中…",
+  "conn.connect": "连接",
+  "conn.disconnect": "断开",
+  "conn.presets": "预设",
+  "conn.presetName": "预设名称",
+  "conn.save": "保存",
+  "conn.noPresets": "暂无预设，保存常用 server 配置",
+  "conn.errHeaders": "headers 必须是 JSON 对象",
+
+  "common.connectFirst": "先在左侧建立连接",
+  "common.refresh": "刷新",
+  "common.loading": "加载…",
+  "common.result": "Result",
+  "common.argsJson": "Arguments（JSON）",
+  "common.request": "Request",
+  "common.response": "Response",
+
+  "tools.refreshHint": "点击刷新加载工具列表",
+  "tools.pickHint": "从左侧选择一个工具",
+  "tools.schema": "Input Schema",
+  "tools.calling": "调用中…",
+  "tools.call": "调用工具",
+  "tools.args": "参数",
+  "tools.noArgs": "该工具无需参数",
+  "tools.clearArgs": "清空",
+  "tools.previewArgs": "预览 JSON",
+  "tools.missingRequired": "请填写必填参数",
+
+  "res.none": "暂无 resources",
+  "res.noneTpl": "暂无 templates",
+  "res.read": "Read resource",
+  "res.uriPh": "resource://path 或选中左侧",
+  "res.reading": "读取…",
+  "res.readBtn": "读取",
+  "res.urls": "URLs",
+  "res.templates": "Templates",
+  "res.listHint": "点击刷新加载列表",
+  "res.pickResourceHint": "从左侧选择一个资源读取",
+  "res.pickTemplateHint": "从左侧选择一个模板，填写参数后读取",
+  "res.params": "参数",
+  "res.preview": "预览 URI",
+  "res.noParams": "该模板无需参数，直接读取即可",
+  "res.missingParams": "请填写所有模板参数",
+  "res.clearParams": "清空",
+
+  "prompt.refreshHint": "点击刷新加载提示词列表",
+  "prompt.pickHint": "从左侧选择一个 prompt",
+  "prompt.argsHint": "Arguments（JSON，值会被转成 string）",
+  "prompt.getting": "获取中…",
+  "prompt.get": "获取提示词",
+
+  "hist.title": "请求历史（{n}）",
+  "hist.clear": "清空",
+  "hist.empty": "暂无记录，所有 tools/resources/prompts 调用都会记录在这里",
+};
+
+export type StrKey = keyof typeof zh;
+
+const en: Record<StrKey, string> = {
+  "app.subtitle": "MCP Inspector",
+  "toolbar.ping": "Ping",
+  "toolbar.toggleTheme": "Toggle light / dark theme",
+  "toolbar.toggleLang": "Switch language / 切换语言",
+  "tab.tools": "Tools",
+  "tab.resources": "Resources",
+  "tab.prompts": "Prompts",
+  "tab.history": "History / Log ({n})",
+  "tab.notifications": "Notifications ({n})",
+  "notify.empty": "No server notifications yet (logging / progress / resource updates will show here)",
+
+  "conn.title": "Connection",
+  "conn.connected": "Connected · {t}",
+  "conn.disconnected": "Disconnected",
+  "conn.transport": "Transport",
+  "conn.transport.stdio": "STDIO (local process)",
+  "conn.transport.sse": "SSE (remote)",
+  "conn.transport.streamable": "Streamable HTTP (remote, recommended)",
+  "conn.command": "Command",
+  "conn.args": "Args (space-separated)",
+  "conn.env": "Env (KEY=VALUE per line)",
+  "conn.cwd": "Cwd (optional)",
+  "conn.url": "Server URL",
+  "conn.headers": "Headers (JSON)",
+  "conn.connecting": "Connecting…",
+  "conn.connect": "Connect",
+  "conn.disconnect": "Disconnect",
+  "conn.presets": "Presets",
+  "conn.presetName": "Preset name",
+  "conn.save": "Save",
+  "conn.noPresets": "No presets yet — save your frequently used server configs",
+  "conn.errHeaders": "headers must be a JSON object",
+
+  "common.connectFirst": "Connect from the left panel first",
+  "common.refresh": "Refresh",
+  "common.loading": "Loading…",
+  "common.result": "Result",
+  "common.argsJson": "Arguments (JSON)",
+  "common.request": "Request",
+  "common.response": "Response",
+
+  "tools.refreshHint": "Click refresh to load the tool list",
+  "tools.pickHint": "Select a tool from the left",
+  "tools.schema": "Input Schema",
+  "tools.calling": "Calling…",
+  "tools.call": "Call tool",
+  "tools.args": "Arguments",
+  "tools.noArgs": "This tool requires no arguments",
+  "tools.clearArgs": "Clear",
+  "tools.previewArgs": "Preview JSON",
+  "tools.missingRequired": "Please fill required fields",
+
+  "res.none": "No resources",
+  "res.noneTpl": "No templates",
+  "res.read": "Read resource",
+  "res.uriPh": "resource://path or pick from the left",
+  "res.reading": "Reading…",
+  "res.readBtn": "Read",
+  "res.urls": "URLs",
+  "res.templates": "Templates",
+  "res.listHint": "Click refresh to load lists",
+  "res.pickResourceHint": "Select a resource from the left to read",
+  "res.pickTemplateHint": "Select a template from the left, fill params and read",
+  "res.params": "Params",
+  "res.preview": "Preview URI",
+  "res.noParams": "This template has no params — read directly",
+  "res.missingParams": "Please fill all template params",
+  "res.clearParams": "Clear",
+
+  "prompt.refreshHint": "Click refresh to load the prompt list",
+  "prompt.pickHint": "Select a prompt from the left",
+  "prompt.argsHint": "Arguments (JSON, values are coerced to strings)",
+  "prompt.getting": "Loading…",
+  "prompt.get": "Get prompt",
+
+  "hist.title": "Request history ({n})",
+  "hist.clear": "Clear",
+  "hist.empty": "No records yet — all tools/resources/prompts calls are logged here",
+};
+
+export const dict: Record<Locale, Record<StrKey, string>> = { zh, en };
+
+/** Simple `{name}` placeholder interpolation. */
+export function translate(locale: Locale, key: StrKey, params?: Record<string, string | number>): string {
+  let s: string = dict[locale][key] ?? dict.en[key] ?? key;
+  if (params) {
+    for (const [k, v] of Object.entries(params)) {
+      s = s.replaceAll(`{${k}}`, String(v));
+    }
+  }
+  return s;
+}

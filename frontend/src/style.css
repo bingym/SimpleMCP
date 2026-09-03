@@ -1,0 +1,17 @@
+html, body, #root {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: "Inter", "Roboto", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #3a3a42;
+    border-radius: 5px;
+}

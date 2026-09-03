@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="sm-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#282833"/>
+      <stop offset="1" stop-color="#101014"/>
+    </linearGradient>
+    <linearGradient id="sm-ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c4dff"/>
+      <stop offset="0.55" stop-color="#3c8cff"/>
+      <stop offset="1" stop-color="#00e5ff"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="62" height="62" rx="14" fill="url(#sm-bg)"/>
+  <line x1="37" y1="37" x2="49" y2="49" stroke="#7c4dff" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="28" cy="27" r="16" fill="none" stroke="url(#sm-ring)" stroke-width="5.5"/>
+  <line x1="28" y1="27" x2="20" y2="22" stroke="#00e5ff" stroke-width="2.4"/>
+  <line x1="28" y1="27" x2="36" y2="22.5" stroke="#00e5ff" stroke-width="2.4"/>
+  <line x1="28" y1="27" x2="28" y2="35" stroke="#00e5ff" stroke-width="2.4"/>
+  <circle cx="20" cy="22" r="2.6" fill="#00e5ff" stroke="#ffffff" stroke-width="1"/>
+  <circle cx="36" cy="22.5" r="2.6" fill="#00e5ff" stroke="#ffffff" stroke-width="1"/>
+  <circle cx="28" cy="35" r="2.6" fill="#00e5ff" stroke="#ffffff" stroke-width="1"/>
+  <circle cx="28" cy="27" r="3.6" fill="#ffffff" stroke="#7c4dff" stroke-width="1.2"/>
+</svg>
