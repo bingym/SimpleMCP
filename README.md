@@ -4,6 +4,10 @@ Lightweight desktop MCP Inspector built with **Go + Wails v2 + React 19 + MUI 7*
 
 Connect to any MCP server over STDIO, SSE or Streamable HTTP and inspect tools, resources, prompts and notifications with a Postman-like layout.
 
+## Screenshots
+
+![simplemcp-1](https://gh-assets.cdn.1994.link/SimpleMCP/SimpleMCP-1.png)
+
 ## Features
 
 - **Transports** — STDIO (command/args/env/cwd), SSE and Streamable HTTP (URL + JSON headers).

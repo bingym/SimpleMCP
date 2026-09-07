@@ -4,6 +4,10 @@
 
 通过 STDIO、SSE 或 Streamable HTTP 连接任意 MCP Server，以类 Postman 的三栏布局调试工具、资源、提示词与通知。
 
+## 截图
+
+![simplemcp-1](https://gh-assets.cdn.1994.link/SimpleMCP/SimpleMCP-1.png)
+
 ## 功能
 
 - **传输协议** — STDIO（command/args/env/cwd）、SSE、Streamable HTTP（URL + JSON Headers）。
