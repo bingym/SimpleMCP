@@ -16,7 +16,7 @@ import Grid from "@mui/material/Grid";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import SendIcon from "@mui/icons-material/Send";
 import SearchIcon from "@mui/icons-material/Search";
-import { mcpApi, type Prompt } from "../api/mcp";
+import { isCapabilityUnavailableError, mcpApi, type Prompt } from "../api/mcp";
 import { useSettings } from "../settings";
 import JsonView from "./JsonView";
 
@@ -49,7 +49,8 @@ export default function PromptsTab({ connected, onError, onAvailable }: Props) {
     try {
       const list = await mcpApi.listPrompts();
       setPrompts(list);
-      onAvailable?.(list.length > 0);
+      // A successful empty list still means the server supports prompts/list.
+      onAvailable?.(true);
       if (list.length === 0) {
         setSelected(null);
         setFormValues({});
@@ -61,8 +62,8 @@ export default function PromptsTab({ connected, onError, onAvailable }: Props) {
       }
     } catch (e: any) {
       const msg = e?.message ?? String(e);
-      onError(msg);
-      if (/not found|unknown method|not supported/i.test(msg)) onAvailable?.(false);
+      if (isCapabilityUnavailableError(e)) onAvailable?.(false);
+      else onError(msg);
     } finally {
       setLoading(false);
     }

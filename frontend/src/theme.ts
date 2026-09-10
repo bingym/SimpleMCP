@@ -5,13 +5,13 @@ export function buildTheme(mode: PaletteMode) {
   return createTheme({
     palette: {
       mode,
-      primary: { main: "#7c4dff" },
-      secondary: { main: "#00e5ff" },
+      primary: { main: dark ? "#7dd3fc" : "#0369a1" },
+      secondary: { main: dark ? "#fbbf24" : "#b45309" },
       ...(dark
         ? { background: { default: "#121214", paper: "#1b1b1f" } }
         : { background: { default: "#f5f6f8", paper: "#ffffff" } }),
     },
-    shape: { borderRadius: 10 },
+    shape: { borderRadius: 8 },
     typography: {
       fontFamily:
         '"Inter", "Roboto", "Helvetica Neue", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif',
@@ -20,6 +20,7 @@ export function buildTheme(mode: PaletteMode) {
     components: {
       MuiTextField: { defaultProps: { size: "small", fullWidth: true } },
       MuiButton: { defaultProps: { size: "small" } },
+      MuiPaper: { styleOverrides: { root: { backgroundImage: "none" } } },
     },
   });
 }

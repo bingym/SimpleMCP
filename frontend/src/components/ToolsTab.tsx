@@ -28,7 +28,7 @@ import SendIcon from "@mui/icons-material/Send";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import { mcpApi, type Tool } from "../api/mcp";
+import { isCapabilityUnavailableError, mcpApi, type Tool } from "../api/mcp";
 import { useSettings } from "../settings";
 import JsonView from "./JsonView";
 
@@ -168,7 +168,8 @@ export default function ToolsTab({ connected, onError, onAvailable }: Props) {
     try {
       const list = await mcpApi.listTools();
       setTools(list);
-      onAvailable?.(list.length > 0);
+      // A successful empty list still means the server supports tools/list.
+      onAvailable?.(true);
       if (list.length > 0) {
         const keep = selected ? list.find((x) => x.name === selected.name) : null;
         const next = keep ?? list[0];
@@ -185,9 +186,8 @@ export default function ToolsTab({ connected, onError, onAvailable }: Props) {
       }
     } catch (e: any) {
       const msg = e?.message ?? String(e);
-      onError(msg);
-      // if method not found / not supported, hide tab
-      if (/not found|unknown method|not supported/i.test(msg)) onAvailable?.(false);
+      if (isCapabilityUnavailableError(e)) onAvailable?.(false);
+      else onError(msg);
     } finally {
       setLoading(false);
     }

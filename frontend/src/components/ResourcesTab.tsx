@@ -25,7 +25,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import LinkIcon from "@mui/icons-material/Link";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
-import { mcpApi, type Resource } from "../api/mcp";
+import { isCapabilityUnavailableError, mcpApi, type Resource } from "../api/mcp";
 import { useSettings } from "../settings";
 import JsonView from "./JsonView";
 
@@ -86,7 +86,8 @@ export default function ResourcesTab({ connected, onError, onAvailable }: Props)
       ]);
       setResources(list);
       setTemplates(tpl as ResourceTemplate[]);
-      onAvailable?.(list.length > 0 || tpl.length > 0);
+      // A successful empty list still means the resources capability exists.
+      onAvailable?.(true);
       if (list.length === 0 && tpl.length === 0) {
         setSelectedRes(null);
         setSelectedTpl(null);
@@ -95,8 +96,8 @@ export default function ResourcesTab({ connected, onError, onAvailable }: Props)
       }
     } catch (e: any) {
       const msg = e?.message ?? String(e);
-      onError(msg);
-      if (/not found|unknown method|not supported/i.test(msg)) onAvailable?.(false);
+      if (isCapabilityUnavailableError(e)) onAvailable?.(false);
+      else onError(msg);
     } finally {
       setLoading(false);
     }

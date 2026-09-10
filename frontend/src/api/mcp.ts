@@ -32,6 +32,12 @@ export type HTTPConfig = mcp.HTTPConfig;
 export type AppConfig = config.AppConfig;
 export type Preset = config.Preset;
 
+/** Returns true only for errors that mean the MCP capability is unavailable. */
+export function isCapabilityUnavailableError(error: unknown): boolean {
+  const msg = error instanceof Error ? error.message : String((error as any)?.message ?? error ?? "");
+  return /\b404\b|method\s+not\s+found|unknown\s+method|method\s+not\s+supported|not\s+supported|-32601/i.test(msg);
+}
+
 export interface Tool {
   name: string;
   description?: string;

@@ -22,6 +22,8 @@ import PingIcon from "@mui/icons-material/NetworkPing";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import TranslateIcon from "@mui/icons-material/Translate";
+import BuildIcon from "@mui/icons-material/Build";
+import TimelineIcon from "@mui/icons-material/Timeline";
 import ConnectionPanel from "./components/ConnectionPanel";
 import ToolsTab from "./components/ToolsTab";
 import ResourcesTab from "./components/ResourcesTab";
@@ -34,7 +36,7 @@ import { useSettings } from "./settings";
 import { buildTheme } from "./theme";
 import logo from "./assets/images/logo.svg";
 
-const DRAWER_WIDTH = 268;
+const DRAWER_WIDTH = 336;
 
 function Main() {
   const { mode, locale, toggleMode, toggleLocale, t } = useSettings();
@@ -114,7 +116,7 @@ function Main() {
   const handleResAvail = useCallback((available: boolean) => setResAvail(available), []);
   const handlePromptAvail = useCallback((available: boolean) => setPromptAvail(available), []);
 
-  const allTabs = useMemo(() => {
+  const workspaceTabs = useMemo(() => {
     const tabs: { key: string; label: string; avail: boolean | null; node: React.ReactNode }[] = [
       {
         key: "tools",
@@ -134,38 +136,32 @@ function Main() {
         avail: promptAvail,
         node: <PromptsTab connected={connected} onError={showError} onAvailable={handlePromptAvail} />,
       },
-      {
-        key: "history",
-        label: t("tab.history", { n: history.length }),
-        avail: true,
-        node: <HistoryTab entries={history} onRefresh={refreshHistory} onClear={() => setHistory([])} />,
-      },
-      {
-        key: "notifications",
-        label: t("tab.notifications", { n: notifications.length }),
-        avail: true,
-        node: notifications.length === 0 ? <Alert severity="info">{t("notify.empty")}</Alert> : <JsonView value={notifications} maxHeight={640} />,
-      },
     ];
     return tabs;
-  }, [t, connected, showError, handleToolAvail, handleResAvail, handlePromptAvail, history, notifications]);
+  }, [t, connected, showError, handleToolAvail, handleResAvail, handlePromptAvail]);
 
-  const visibleTabs = useMemo(() => {
+  const visibleWorkspaceTabs = useMemo(() => {
     // when not connected, show all (avail null treated as true)
-    if (!connected) return allTabs;
-    return allTabs.filter((x) => x.avail !== false);
-  }, [allTabs, connected]);
+    if (!connected) return workspaceTabs;
+    return workspaceTabs.filter((x) => x.avail !== false);
+  }, [workspaceTabs, connected]);
 
-  const [tabKey, setTabKey] = useState<string>("tools");
+  const [section, setSection] = useState<"workspace" | "activity">("workspace");
+  const [workspaceKey, setWorkspaceKey] = useState<string>("tools");
+  const [activityKey, setActivityKey] = useState<"history" | "notifications">("history");
 
   // Keep selected tab valid when visibility changes
   useEffect(() => {
-    if (!visibleTabs.find((x) => x.key === tabKey)) {
-      setTabKey(visibleTabs[0]?.key ?? "history");
+    if (!visibleWorkspaceTabs.find((x) => x.key === workspaceKey)) {
+      setWorkspaceKey(visibleWorkspaceTabs[0]?.key ?? "tools");
     }
-  }, [visibleTabs, tabKey]);
+  }, [visibleWorkspaceTabs, workspaceKey]);
 
-  const activeNode = useMemo(() => visibleTabs.find((x) => x.key === tabKey)?.node, [visibleTabs, tabKey]);
+  const activeNode = useMemo(() => {
+    if (section === "workspace") return visibleWorkspaceTabs.find((x) => x.key === workspaceKey)?.node;
+    if (activityKey === "history") return <HistoryTab entries={history} onRefresh={refreshHistory} onClear={() => setHistory([])} />;
+    return notifications.length === 0 ? <Alert severity="info">{t("notify.empty")}</Alert> : <JsonView value={notifications} maxHeight={640} />;
+  }, [section, visibleWorkspaceTabs, workspaceKey, activityKey, history, refreshHistory, notifications, t]);
 
   const panel = (
     <Box sx={{ p: 2, pb: 3, display: "flex", flexDirection: "column", gap: 1.5 }}>
@@ -193,7 +189,7 @@ function Main() {
             </IconButton>
           )}
           <Box component="img" src={logo} alt="SimpleMCP logo" sx={{ width: 26, height: 26, borderRadius: 1.5 }} />
-          <Typography variant="subtitle1" sx={{ fontWeight: 800, letterSpacing: -0.3, flex: 1, fontSize: 14 }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 800, letterSpacing: 0, flex: 1, fontSize: 14 }}>
             SimpleMCP{" "}
             <Typography component="span" variant="caption" color="text.secondary" sx={{ fontWeight: 400, ml: 0.5 }}>
               · {t("app.subtitle")}
@@ -206,7 +202,7 @@ function Main() {
               gap: 0.5,
               px: 1,
               py: 0.3,
-              borderRadius: 2,
+              borderRadius: 1.5,
               bgcolor: connected ? "success.main" : "action.hover",
               color: connected ? "white" : "text.secondary",
               fontSize: 11,
@@ -264,6 +260,11 @@ function Main() {
             flexDirection: "column",
           }}
         >
+          <Box sx={{ px: 2, pt: 1.5, pb: 0.5 }}>
+            <Typography variant="overline" color="text.secondary" sx={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.1 }}>
+              CONNECTION WORKSPACE
+            </Typography>
+          </Box>
           {panel}
         </Box>
       ) : (
@@ -275,22 +276,39 @@ function Main() {
       <Box sx={{ flex: 1, mt: "48px", display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
         <Paper square elevation={0} sx={{ borderBottom: 1, borderColor: "divider", bgcolor: "background.paper" }}>
           <Tabs
-            value={tabKey}
-            onChange={(_, v) => {
-              setTabKey(v);
-              if (v === "history") refreshHistory();
+            value={section}
+            onChange={(_, value) => {
+              setSection(value);
+              if (value === "activity" && activityKey === "history") refreshHistory();
+            }}
+            sx={{ px: 1.5, minHeight: 38, borderBottom: 1, borderColor: "divider", "& .MuiTab-root": { minHeight: 38, textTransform: "none", fontWeight: 800, fontSize: 12, px: 1.5 } }}
+          >
+            <Tab value="workspace" icon={<BuildIcon sx={{ fontSize: 16 }} />} iconPosition="start" label={t("nav.workspace")} />
+            <Tab value="activity" icon={<TimelineIcon sx={{ fontSize: 16 }} />} iconPosition="start" label={t("nav.activity")} />
+          </Tabs>
+          <Tabs
+            value={section === "workspace" ? workspaceKey : activityKey}
+            onChange={(_, value) => {
+              if (section === "workspace") setWorkspaceKey(value);
+              else {
+                setActivityKey(value);
+                if (value === "history") refreshHistory();
+              }
             }}
             variant="scrollable"
             scrollButtons="auto"
             sx={{
-              px: 1,
-              minHeight: 42,
-              "& .MuiTab-root": { minHeight: 42, textTransform: "none", fontWeight: 600, fontSize: 13 },
+              px: 1.5,
+              minHeight: 46,
+              "& .MuiTab-root": { minHeight: 46, textTransform: "none", fontWeight: 700, fontSize: 12, px: 1.5 },
             }}
           >
-            {visibleTabs.map((x) => (
-              <Tab key={x.key} value={x.key} label={x.label} />
-            ))}
+            {section === "workspace" ? visibleWorkspaceTabs.map((x) => <Tab key={x.key} value={x.key} label={x.label} />) : (
+              <>
+                <Tab value="history" label={t("tab.history", { n: history.length })} />
+                <Tab value="notifications" label={t("tab.notifications", { n: notifications.length })} />
+              </>
+            )}
           </Tabs>
         </Paper>
         <Box sx={{ p: 0, overflow: "hidden", flex: 1, display: "flex", flexDirection: "column", bgcolor: "background.default" }}>

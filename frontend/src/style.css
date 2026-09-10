@@ -7,6 +7,10 @@ body {
     font-family: "Inter", "Roboto", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
