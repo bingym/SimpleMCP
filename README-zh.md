@@ -61,7 +61,7 @@ SimpleMCP 是一个桌面版 MCP Inspector，用于连接、探索和调试 Mode
 安装前端依赖并启动 Wails 开发应用：
 
 ```bash
-npm --prefix frontend install
+pnpm --prefix frontend install
 wails dev
 ```
 
@@ -69,7 +69,7 @@ wails dev
 
 ```bash
 go test ./...
-npm --prefix frontend run build
+pnpm --prefix frontend run build
 ```
 
 前端构建会同时执行 TypeScript 类型检查和 Vite 生产构建。

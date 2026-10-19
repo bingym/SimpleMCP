@@ -53,7 +53,7 @@ It stores theme, locale, and presets. The file is the source of truth and is wri
 For development, install:
 
 - Go (version declared by `go.mod`)
-- Node.js and npm
+- Node.js and pnpm
 - Wails CLI v2
 
 ## Development
@@ -61,7 +61,7 @@ For development, install:
 Install frontend dependencies and start the Wails development app:
 
 ```bash
-npm --prefix frontend install
+pnpm --prefix frontend install
 wails dev
 ```
 
@@ -69,7 +69,7 @@ Run the focused verification commands from the repository root:
 
 ```bash
 go test ./...
-npm --prefix frontend run build
+pnpm --prefix frontend run build
 ```
 
 The frontend build performs TypeScript checking and a Vite production build.

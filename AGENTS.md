@@ -17,12 +17,12 @@ Run from the repository root unless noted:
 
 ```bash
 go test ./...
-npm --prefix frontend run build
+pnpm --prefix frontend run build
 wails dev
 wails build
 ```
 
-Use `npm --prefix frontend run build` after frontend changes. Use `go test ./...` after Go, MCP, or config changes. A change is not complete until the relevant checks pass, or the final response clearly states what could not run and why.
+Use `pnpm --prefix frontend run build` after frontend changes. Use `go test ./...` after Go, MCP, or config changes. A change is not complete until the relevant checks pass, or the final response clearly states what could not run and why.
 
 ## Frontend Architecture
 
