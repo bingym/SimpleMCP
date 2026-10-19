@@ -18,10 +18,10 @@ func main() {
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:  "SimpleMCP - MCP Inspector",
-		Width:  1440,
-		Height: 900,
-		MinWidth:  1100,
-		MinHeight: 700,
+		Width:  1200,
+		Height: 760,
+		MinWidth:  960,
+		MinHeight: 640,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

@@ -5,6 +5,21 @@ html, body, #root {
 body {
     margin: 0;
     font-family: "Inter", "Roboto", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    /* Desktop-app feel: text is not selectable by default */
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+/* Content areas remain selectable/copyable */
+input,
+textarea,
+pre,
+code,
+.react-json-view-lite {
+    -webkit-user-select: text;
+    user-select: text;
+    cursor: auto;
 }
 
 * {
